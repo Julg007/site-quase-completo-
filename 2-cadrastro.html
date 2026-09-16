@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HandGO - Cadastro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #6a0dad;
+            --primary-dark: #4b0082;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --bg: #f5f3ff;
+            --white: #ffffff;
+            --shadow: 0 20px 45px rgba(76, 29, 149, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #e9d5ff 100%);
+            color: var(--text);
+        }
+
+        a { text-decoration: none; }
+
+        .topbar {
+            background: rgba(255,255,255,0.9);
+            border-bottom: 1px solid rgba(106,13,173,0.08);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 72px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-size: 1.7rem;
+            font-weight: 800;
+        }
+
+        .logo i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .btn-link {
+            border: 1px solid rgba(106, 13, 173, 0.2);
+            background: rgba(106, 13, 173, 0.04);
+            color: var(--primary);
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-link:hover {
+            background: rgba(106, 13, 173, 0.1);
+        }
+
+        .page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 560px;
+            background: var(--white);
+            border-radius: 22px;
+            padding: 32px 28px;
+            box-shadow: var(--shadow);
+        }
+
+        .eyebrow {
+            margin: 0 0 12px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            color: var(--primary-dark);
+        }
+
+        .subtitle {
+            margin: 0 0 24px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            color: var(--text);
+            background: #fff;
+            transition: 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(106,13,173,0.12);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+            font-weight: 700;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px rgba(109,40,217,0.22);
+        }
+
+        .helper {
+            margin-top: 22px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .helper a {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .status {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: #fef3c7;
+            border: 1px solid #facc15;
+            color: #92400e;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 24px 18px;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 12px;
+                justify-content: center;
+                padding: 14px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="container">
+            <nav class="nav">
+                <a href="1%20site%20.html" class="logo" aria-label="Voltar para a página inicial">
+                    <i class="fa-solid fa-handshake-angle"></i>
+                    <span>HandGO</span>
+                </a>
+                <button type="button" class="btn-link" onclick="window.location.href='3%20logar.html'">Já tenho conta</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page">
+        <section class="card" aria-labelledby="titulo-cadastro">
+            <p class="eyebrow">Cadastre-se</p>
+            <h1 id="titulo-cadastro">Crie sua conta</h1>
+            <p class="subtitle">Comece a contratar ou divulgar serviços com rapidez, segurança e confiança.</p>
+
+            <div id="statusMessage" class="status" role="alert"></div>
+
+            <form id="registerForm" novalidate>
+                <div class="form-grid">
+                    <div class="field full">
+                        <label for="name">Nome completo</label>
+                        <input id="name" type="text" placeholder="Digite seu nome" required />
+                    </div>
+
+                    <div class="field">
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" placeholder="seuemail@exemplo.com" required />
+                    </div>
+
+                    <div class="field">
+                        <label for="phone">Telefone</label>
+                        <input id="phone" type="tel" placeholder="(11) 99999-9999" required />
+                    </div>
+
+                    <div class="field full">
+                        <label for="password">Senha</label>
+                        <input id="password" type="password" placeholder="Crie uma senha forte" required />
+                    </div>
+
+                    <div class="field">
+                        <label for="type">Tipo de conta</label>
+                        <select id="type" required>
+                            <option value="">Selecione</option>
+                            <option value="cliente">Cliente</option>
+                            <option value="profissional">Profissional</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="city">Cidade / Estado</label>
+                        <input id="city" type="text" placeholder="São Paulo - SP" required />
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn-primary">Cadastrar</button>
+                </div>
+            </form>
+
+            <p class="helper">Já possui conta? <a href="3%20logar.html">Entrar agora</a></p>
+        </section>
+    </main>
+
+    <script>
+        (function () {
+            const registerForm = document.getElementById('registerForm');
+            const statusMessage = document.getElementById('statusMessage');
+
+            try {
+                const loggedIn = localStorage.getItem('temConta');
+                if (loggedIn === 'true') {
+                    window.location.href = '1%20site%20.html';
+                }
+            } catch (error) {
+                console.warn('Não foi possível verificar sessão local.', error);
+            }
+
+            function showStatus(message, type = 'info') {
+                statusMessage.textContent = message;
+                statusMessage.style.display = 'block';
+                statusMessage.style.background = type === 'error' ? '#fee2e2' : '#fef3c7';
+                statusMessage.style.borderColor = type === 'error' ? '#fca5a5' : '#facc15';
+                statusMessage.style.color = type === 'error' ? '#991b1b' : '#92400e';
+            }
+
+            registerForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const type = document.getElementById('type').value;
+                const city = document.getElementById('city').value.trim();
+
+                if (!name || !email || !phone || !password || !type || !city) {
+                    showStatus('Preencha todos os campos antes de continuar.', 'error');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showStatus('A senha deve ter pelo menos 6 caracteres.', 'error');
+                    return;
+                }
+
+                try {
+                    localStorage.setItem('temConta', 'true');
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('loggedIn', '1');
+                    localStorage.setItem('profileName', name);
+                    localStorage.setItem('profileType', type);
+                    localStorage.setItem('profileCity', city);
+                    localStorage.setItem('profilePhone', phone);
+                    showStatus('Cadastro realizado com sucesso! Redirecionando...');
+                    setTimeout(function () {
+                        window.location.href = '1%20site%20.html';
+                    }, 800);
+                } catch (error) {
+                    showStatus('Não foi possível concluir o cadastro no momento. Tente novamente.', 'error');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandGO - Serviços Terceirizados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a0dad;
+            --primary-light: #8a2be2;
+            --primary-dark: #4b0082;
+            --secondary: #f8f9fa;
+            --text: #333;
+            --light-text: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --border: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Align site name to the very left edge only in header */
+        header .container {
+            padding-left: 0;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 48px;
+            margin-left: 32px; /* spacing from the title */
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000000;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background-color: rgba(106, 13, 173, 0.85); /* primary w/ transparency */
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(106, 13, 173, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(106, 13, 173, 0.25);
+        }
+
+        .btn-outline {
+            background-color: rgba(106, 13, 173, 0.08);
+            border: 2px solid rgba(106, 13, 173, 0.5);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(106, 13, 173, 0.18);
+            color: var(--primary-dark);
+            box-shadow: 0 6px 14px rgba(106, 13, 173, 0.2);
+        }
+
+        /* Click animation */
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 600ms ease-out;
+            background: rgba(255, 255, 255, 0.55);
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+        .btn-outline .ripple {
+            background: rgba(106, 13, 173, 0.25);
+            mix-blend-mode: normal;
+        }
+        @keyframes ripple {
+            to {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f5f3ff 0%, #e6d7ff 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .hero .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            margin-bottom: 32px;
+            color: var(--primary-dark);
+            text-align: center;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--light-text);
+        }
+
+        /* Categories bar */
+        .categories-bar {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            /* mais respiro abaixo do header e antes do conteúdo seguinte */
+            padding-top: 10px;
+            padding-bottom: 18px;
+            margin-bottom: 32px;
+        }
+        .categories {
+            display: flex;
+            flex-wrap: nowrap; /* uma linha só */
+            gap: 0 28px; /* apenas espaçamento horizontal */
+            padding: 16px 0; /* altura maior */
+            overflow-x: auto; /* scroll lateral */
+            overflow-y: hidden;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+        }
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px; /* botões um pouco maiores */
+            border-radius: 12px;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            color: var(--text);
+        }
+        .category-item i {
+            color: var(--primary);
+        }
+        .category-item:hover {
+            background: var(--secondary);
+            border-color: var(--border);
+        }
+        .category-item.active {
+            background: rgba(106, 13, 173, 0.1);
+            border-color: var(--primary);
+        }
+
+        .cat-dropdown { display: none; background: #ffffff; border-top: 1px solid var(--border); padding: 14px 0; }
+        .cat-dropdown.active { display: block; }
+        .cat-dropdown .container { padding-top: 0; padding-bottom: 0; }
+        .cat-title { font-weight: 700; color: var(--primary-dark); margin-bottom: 10px; }
+        .cat-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 6px 24px; list-style: none; }
+        .cat-list li { padding: 4px 0; color: var(--text); }
+        .cat-list li::before { content: '•'; margin-right: 8px; color: var(--primary); }
+        body.theme-dark .cat-dropdown { background: #121217; border-color: var(--border); }
+        body.theme-dark .cat-title { color: var(--text); }
+
+        /* Light theme readability: make text black on white backgrounds */
+        body:not(.theme-dark) .theme-panel,
+        body:not(.theme-dark) .theme-panel .theme-option span,
+        body:not(.theme-dark) .cat-dropdown,
+        body:not(.theme-dark) .cat-dropdown .cat-title,
+        body:not(.theme-dark) .cat-dropdown .cat-list li,
+        body:not(.theme-dark) .suggestions,
+        body:not(.theme-dark) .suggestion-item {
+            color: #111 !important;
+        }
+
+        /* Exceção para manter Meu Perfil sempre preto */
+        #themeProfile span {
+            color: #000000 !important;
+        }
+
+        /* Exceção para o tema preto manter texto branco */
+        body:not(.theme-dark) #themeDark .label {
+            color: #ffffff !important;
+        }
+        body:not(.theme-dark) #themeDark .sub {
+            color: #ffffff !important;
+        }
+
+        /* Hero big search */
+        .hero .search-hero {
+            max-width: 820px;
+            margin: 30px auto 10px;
+            position: relative;
+        }
+        .hero .search-hero input {
+            height: 58px;
+            border-radius: 999px;
+            padding: 0 60px 0 52px;
+            font-size: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .hero .search-hero i.fa-magnifying-glass {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text);
+            font-size: 18px;
+        }
+        .hero .search-hero button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 42px;
+            padding: 0 16px;
+            border-radius: 999px;
+        }
+        .popular-tags {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .tag-chip {
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .tag-chip:hover {
+            background: var(--secondary);
+        }
+
+        .light-text { color: var(--light-text); }
+
+        /* Services Section */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .section-title p {
+            color: var(--light-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Search bar */
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        .search-bar input {
+            padding-left: 42px;
+        }
+        .search-bar i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text);
+        }
+        .suggestions { position: absolute; left: 0; right: 0; top: 100%; margin-top: 6px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); max-height: 280px; overflow-y: auto; display: none; z-index: 20; }
+        .suggestion-item { padding: 10px 12px; cursor: pointer; }
+        .suggestion-item:hover { background: var(--secondary); }
+        body.theme-dark .suggestions { background: #15151b; border-color: var(--border); }
+        body.theme-dark .suggestion-item { color: var(--text); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f3ff 0%, #e6d7ff 100%);
+            color: var(--primary);
+            font-size: 50px;
+        }
+
+        .service-content {
+            padding: 25px;
+        }
+
+        .service-content h3 {
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        /* Tabs (Serviços) */
+        .tabs { margin-top: 20px; }
+        .tab-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+        .tab-list .tab-btn {
+            border: 1px solid var(--border);
+            background: #ffffff;
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .tab-list .tab-btn:hover { background: var(--secondary); }
+        .tab-list .tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 6px 14px rgba(106, 13, 173, 0.25);
+        }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        .service-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+        .service-box {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .service-box h4 { color: var(--primary-dark); margin-bottom: 8px; }
+        .service-list { margin-left: 18px; }
+        .service-list li { margin: 6px 0; }
+        body.theme-dark .tab-list .tab-btn { background: #121217; color: var(--text); border-color: var(--border); }
+        body.theme-dark .service-box { background: #15151b; border-color: var(--border); }
+
+        /* How It Works */
+        .how-it-works {
+            background-color: var(--secondary);
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        /* How It Works cards: black box with white text only in dark theme */
+        body.theme-dark .how-it-works .step { background: #000000; color: #ffffff; }
+        body.theme-dark .how-it-works .step h3,
+        body.theme-dark .how-it-works .step p { color: #ffffff; }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, #f5f3ff 0%, #e6d7ff 100%);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .rating {
+            color: var(--warning);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--light-text);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Support Section */
+        .support-section {
+            background: #ffffff;
+        }
+        body.theme-dark .support-section { background: #000000; }
+        body.theme-dark .support-section .section-title p { color: #ffffff; }
+
+        .support-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .support-card {
+            background: var(--secondary);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .support-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .support-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Ocultar seções não utilizadas e manter FAQ oculto até o clique */
+        #testimonials { display: none !important; }
+        #faq { display: none; }
+
+        /* Autônomos */
+        .upload-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .upload-card {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+        }
+        .preview {
+            margin-top: 10px;
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        /* Theme switcher (gear) */
+        .theme-gear {
+            position: fixed;
+            right: 18px;
+            top: 12px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: #000000;
+            color: #fff;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            z-index: 1100;
+        }
+        .theme-gear i { font-size: 20px; }
+        .theme-panel {
+            position: fixed;
+            right: 18px;
+            top: 66px;
+            width: 240px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 14px;
+            display: none;
+            z-index: 1100;
+        }
+        .theme-option { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; cursor: pointer; background: #fff; transition: border-color .2s, box-shadow .2s, background-color .2s, transform .15s; font-weight: 700; }
+        .theme-option + .theme-option { margin-top: 10px; }
+        .theme-swatch { display: inline-flex; gap: 6px; }
+        .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+        .radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #d1d5db; position: relative; display: inline-block; }
+        .radio::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--primary); opacity: 0; transition: opacity .2s; }
+        .theme-option.active .radio { border-color: var(--primary); }
+        .theme-option.active .radio::after { opacity: 1; }
+        .theme-option:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
+        .theme-option.active { border-color: var(--primary); box-shadow: 0 8px 18px rgba(106,13,173,0.18); }
+        .theme-option .label { display: block; color: #111; font-weight: 700; }
+        #themeDark .label { color: #ffffff; }
+        #themeLight .label { color: #111; }
+        .theme-option .sub { display: block; color: var(--light-text); font-size: 12px; margin-top: 2px; font-weight: 500; }
+        #themeLight { color: #0b0b0f; background: #ffffff; border-color: #d1d5db; }
+        #themeLight .theme-swatch .dot:first-child { background: #ffffff; border: 1px solid #ddd; }
+        #themeLight .theme-swatch .dot:last-child { background: var(--primary); }
+        #themeDark  { color: #ffffff; background: #0f0f14; border-color: #2a2a33; }
+        #themeDark .theme-swatch .dot:first-child { background: #0a0a0d; }
+        #themeDark .theme-swatch .dot:last-child  { background: var(--primary); }
+
+        /* Meu Perfil - sempre preto em ambos os temas */
+        #themeProfile,
+        #themeProfile span,
+        #themeProfile a {
+            color: #000000 !important;
+        }
+
+        #themeProfile a {
+            display: block;
+            text-decoration: none;
+        }
+
+        /* Dark theme overrides */
+        body.theme-dark {
+            --text: #e7e7ea;
+            --light-text: #b8b8c2;
+            --secondary: #17171c;
+            --border: #2a2a33;
+            background-color: #0f0f14;
+            color: var(--text);
+        }
+        body.theme-dark header { background-color: #111116; }
+        body.theme-dark .hero {
+            background: linear-gradient(135deg, #151520 0%, #1b1530 100%);
+        }
+        body.theme-dark .service-card,
+        body.theme-dark .support-card,
+        body.theme-dark .testimonial-card,
+        body.theme-dark .modal-content {
+            background: #15151b;
+            color: var(--text);
+            border-color: var(--border);
+        }
+        body.theme-dark .footer-links a { color: #cdbdee; }
+        body.theme-dark .footer-links a:hover { color: #ffffff; }
+        body.theme-dark .categories-bar { background: #121217; border-bottom-color: var(--border); }
+        body.theme-dark .category-item { color: var(--text); }
+        body.theme-dark .tag-chip { background: #121217; border-color: var(--border); color: var(--text); }
+        /* Make header nav links purple in dark theme for visibility */
+        body.theme-dark .nav-links a { color: var(--primary); }
+        body.theme-dark .nav-links a:hover { color: var(--primary-light); }
+        /* Dark theme: make section subtitles and helper texts white */
+        body.theme-dark .section-title p { color: #ffffff !important; }
+        body.theme-dark .light-text { color: #ffffff !important; }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #d0c0e0;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d0c0e0;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            animation: modalAppear 0.4s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--light-text);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.2);
+        }
+
+        /* Placeholder visibility */
+        .form-control::placeholder { color: #6c757d; opacity: 1; }
+
+        /* Upload cards readability */
+        .upload-card, .upload-card label { color: #000000; }
+        .upload-card { background: #ffffff; }
+
+        /* Ensure forms remain readable in dark theme */
+        body.theme-dark .form-group label { color: #ffffff !important; }
+        body.theme-dark .form-control { background: #ffffff; color: #000000; border-color: var(--border); }
+        body.theme-dark .upload-card, body.theme-dark .upload-card label { color: #000000 !important; }
+        body.theme-dark .upload-card { background: #ffffff; }
+
+        
+
+        /* Fixar tamanho do campo de descrição da empresa */
+        #companyDescription { resize: none; }
+        .char-counter { font-size: 12px; color: var(--light-text); text-align: right; margin-top: 6px; }
+
+        /* Acesso (Acesse sua conta) */
+        .acesso { padding: 60px 0; }
+        .acesso h2 { font-size: 32px; color: var(--primary); text-align: center; margin-bottom: 10px; }
+        .acesso p { text-align: center; color: var(--light-text); margin-bottom: 24px; }
+        .botoes-acesso { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fa-solid fa-handshake-angle"></i>
+                    <span>HandGO</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#faq">Dúvidas Frequentes</a>
+                    <a href="#support">Suporte e Segurança</a>
+                    <a href="#how-it-works">Como Funciona</a>
+                    <a href="#sobre">Quem Somos</a>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-outline" id="loginBtn">Entrar</button>
+                    <button class="btn btn-primary" id="registerBtn">Cadastrar</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Categories Bar -->
+    <div class="categories-bar">
+        <div class="container">
+            <div class="categories">
+                <div class="category-item" data-filter="Serviços Domésticos, Limpeza, Residencial">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Serviços Domésticos</span>
+                </div>
+                <div class="category-item" data-filter="Reformas, Reparos, Instalações">
+                    <i class="fa-solid fa-hammer"></i>
+                    <span>Reformas e reparos</span>
+                </div>
+                <div class="category-item" data-filter="Assistência técnica, Tecnologia, Reparos">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                    <span>Assistência técnica</span>
+                </div>
+                <div class="category-item" data-filter="Aulas, Educação, Pessoais">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Aulas</span>
+                </div>
+                <div class="category-item" data-filter="Consultoria, Empresariais, Administrativos">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>Consultoria</span>
+                </div>
+                <div class="category-item" data-filter="Saúde, Pessoais, Bem-estar">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <span>Saúde</span>
+                </div>
+                <div class="category-item" data-filter="Beleza, Moda, Pessoais">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Moda e beleza</span>
+                </div>
+                <div class="category-item" data-filter="Eventos, Festas">
+                    <i class="fa-solid fa-champagne-glasses"></i>
+                    <span>Eventos</span>
+                </div>
+                <div class="category-item" data-filter="Autos, Veículos, Reparos">
+                    <i class="fa-solid fa-car"></i>
+                    <span>Autos</span>
+                </div>
+                <div class="category-item" data-filter="Design, Tecnologia, Digital">
+                    <i class="fa-solid fa-pen-ruler"></i>
+                    <span>Design e Tecnologia</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dropdown de serviços por categoria -->
+    <div class="cat-dropdown" id="catDropdown" aria-hidden="true">
+        <div class="container">
+            <div class="cat-title" id="catTitle"></div>
+            <ul class="cat-list" id="catList"></ul>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="pesquisa">
+        <div class="container">
+            <h1>Mais de 500 tipos de serviços em um só lugar.</h1>
+            <p>Encontre profissionais e contrate serviços para tudo o que precisar.</p>
+            <div class="search-hero">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="heroSearch" class="form-control" placeholder="O que você precisa?" />
+                <button class="btn btn-primary" id="heroSearchBtn">Buscar</button>
+                <div id="heroSuggestions" class="suggestions"></div>
+            </div>
+            <div class="popular-tags">
+                <span class="light-text">Mais comuns:</span>
+                <button class="tag-chip" data-term="Diarista">Diarista</button>
+                <button class="tag-chip" data-term="Marido de aluguel">Marido de aluguel</button>
+                <button class="tag-chip" data-term="Pintor">Pintor</button>
+                <button class="tag-chip" data-term="Adestrador">Adestrador</button>
+                <button class="tag-chip" data-term="Encanador">Encanador</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acesse sua conta (links) -->
+    <section class="section acesso" id="conta">
+        <div class="container">
+            <h2>Acesse sua conta</h2>
+            <p>Para continuar, escolha uma opção:</p>
+            <div class="botoes-acesso">
+                <button type="button" id="accountRegisterBtn" class="btn btn-primary">Criar conta</button>
+                <button type="button" id="accountLoginBtn" class="btn btn-outline">Já tenho conta</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Área do Cliente -->
+    <section class="section" id="area-cliente" style="display: none;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Área do Cliente</h2>
+                <p>Gerencie suas informações cadastradas.</p>
+            </div>
+            <form id="clientInfoForm">
+                <div class="form-group">
+                    <label for="clientName">Nome</label>
+                    <input type="text" id="clientName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientEmail">E-mail</label>
+                    <input type="email" id="clientEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPhone">Telefone/WhatsApp</label>
+                    <input type="tel" id="clientPhone" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="clientAddress">Endereço</label>
+                    <input type="text" id="clientAddress" class="form-control" placeholder="Rua, número - Cidade/UF">
+                </div>
+                <div class="form-group">
+                    <label for="clientPreferences">Observações/Preferências</label>
+                    <textarea id="clientPreferences" class="form-control" rows="4"></textarea>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" class="btn btn-primary">Salvar Informações</button>
+                    <button type="button" class="btn btn-outline" id="logoutBtn">Sair</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Quem Somos -->
+    <section class="section" id="sobre">
+        <div class="container">
+            <div class="section-title">
+                <h2>Quem Somos</h2>
+                <p>Somos a HandGO, uma plataforma que conecta clientes aos melhores profissionais e empresas, com foco em segurança e qualidade.</p>
+            </div>
+            <div class="support-cards">
+                <div class="support-card">
+                    <h3>Missão</h3>
+                    <p>Facilitar o acesso a serviços de confiança, aproximando quem precisa de quem sabe fazer.</p>
+                </div>
+                <div class="support-card">
+                    <h3>Valores</h3>
+                    <p>Transparência, segurança, qualidade e respeito a clientes, profissionais e empresas.</p>
+                </div>
+                <div class="support-card">
+                    <h3>Alcance</h3>
+                    <p>Atuação em todo o Brasil com diversas categorias de serviços.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossos Serviços</h2>
+                <p>Oferecemos uma ampla variedade de serviços terceirizados em todo o Brasil</p>
+            </div>
+            
+            <div class="tabs" id="serviceTabs">
+                <div class="tab-list" role="tablist">
+                    <button class="tab-btn active" role="tab" aria-selected="true" data-target="#tab-tec">Tecnologia / Digital</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" data-target="#tab-geral">Serviços Gerais</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" data-target="#tab-admin">Serviços Administrativos</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" data-target="#tab-educa">Educacionais e Criativos</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" data-target="#tab-ind">Industriais e Logísticos</button>
+                </div>
+
+                <div id="tab-tec" class="tab-panel active">
+                    <div class="service-columns">
+                        <div class="service-box">
+                            <h4>Tecnologia / Digital</h4>
+                            <ul class="service-list">
+                                <li>Criação de sites e landing pages</li>
+                                <li>Manutenção de sites (atualizações, correção de bugs)</li>
+                                <li>Suporte técnico remoto (instalação de programas, antivírus etc.)</li>
+                                <li>Design gráfico (logos, banners, artes para redes sociais)</li>
+                                <li>Edição de vídeo e áudio</li>
+                                <li>Marketing digital (gestão de redes sociais, tráfego pago, SEO)</li>
+                                <li>Criação de aplicativos e sistemas</li>
+                                <li>Automação com Python ou bots</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-geral" class="tab-panel">
+                    <div class="service-columns">
+                        <div class="service-box">
+                            <h4>Serviços Gerais (empresas e residências)</h4>
+                            <ul class="service-list">
+                                <li>Limpeza comercial e residencial</li>
+                                <li>Portaria e segurança patrimonial</li>
+                                <li>Jardinagem e paisagismo</li>
+                                <li>Manutenção predial e elétrica</li>
+                                <li>Hidráulica e encanamento</li>
+                                <li>Zeladoria e conservação</li>
+                                <li>Serviços de motoboy e entregas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+  
+                <div id="tab-admin" class="tab-panel">
+                    <div class="service-columns">
+                        <div class="service-box">
+                            <h4>Serviços Administrativos / Suporte Empresarial</h4>
+                            <ul class="service-list">
+                                <li>Atendimento ao cliente (chat, e-mail, telefone)</li>
+                                <li>Digitação e organização de documentos</li>
+                                <li>Contabilidade terceirizada</li>
+                                <li>Recursos humanos (folha de pagamento, seleção de pessoal)</li>
+                                <li>Secretariado remoto</li>
+                                <li>Suporte de TI empresarial</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-educa" class="tab-panel">
+                    <div class="service-columns">
+                        <div class="service-box">
+                            <h4>Serviços Educacionais e Criativos</h4>
+                            <ul class="service-list">
+                                <li>Aulas particulares online (idiomas, reforço escolar, programação)</li>
+                                <li>Produção de conteúdo (textos, roteiros, artigos, posts)</li>
+                                <li>Traduções e revisões</li>
+                                <li>Criação de cursos online para empresas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-ind" class="tab-panel">
+                    <div class="service-columns">
+                        <div class="service-box">
+                            <h4>Serviços Industriais e Logísticos</h4>
+                            <ul class="service-list">
+                                <li>Terceirização de mão de obra (operadores, auxiliares, soldadores etc.)</li>
+                                <li>Logística e armazenagem</li>
+                                <li>Transporte e distribuição</li>
+                                <li>Montagem e embalagem de produtos</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>Como Funciona</h2>
+                <p>Conectamos você ao profissional ideal em poucos passos simples</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                     <div class="step-number">1</div>
+                    <h3>Cadastre-se</h3>
+                    <p>Crie sua conta como cliente ou profissional em minutos</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Encontre Profissionais</h3>
+                    <p>Busque por serviço, localização e veja avaliações de outros clientes</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Agende e Pague</h3>
+                    <p>Agende diretamente com o profissional e pague com segurança</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Avalie o Serviço</h3>
+                    <p>Deixe sua avaliação e ajude outros clientes a escolherem</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Avaliações de Clientes</h2>
+                <p>Veja o que nossos clientes dizem sobre os serviços</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Contratei um eletricista pelo HelpConnect e fiquei impressionado com a qualidade e rapidez do serviço. O profissional chegou no horário combinado e resolveu tudo em menos de uma hora!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">M</div>
+                        <div>
+                            <strong>Maria Silva</strong>
+                            <p>São Paulo - SP</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <p class="testimonial-text">"Encontrei um professor particular de matemática para minha filha. As aulas são ótimas e ela já melhorou muito nas notas. Recomendo demais o HelpConnect!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div>
+                            <strong>Carlos Oliveira</strong>
+                            <p>Rio de Janeiro - RJ</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Precisava de um designer para criar o logo da minha empresa. Encontrei vários profissionais qualificados e consegui escolher o perfeito para o meu projeto. Serviço excelente!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div>
+                            <strong>Ana Costa</strong>
+                            <p>Belo Horizonte - MG</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section class="section support-section" id="support">
+        <div class="container">
+            <div class="section-title">
+                <h2>Suporte e Segurança</h2>
+                <p>Estamos aqui para garantir sua segurança e resolver qualquer problema</p>
+            </div>
+            <div class="support-cards">
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3>Suporte 24/7</h3>
+                    <p>Nossa equipe de suporte está disponível 24 horas por dia, 7 dias por semana para ajudar você.</p>
+                </div>
+                
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3>Sistema de Denúncias</h3>
+                    <p>Denuncie qualquer comportamento inadequado ou problema com um profissional através do nosso sistema seguro.</p>
+                </div>
+                
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>Pagamento Seguro</h3>
+                    <p>Seu pagamento só é liberado para o profissional após a conclusão satisfatória do serviço.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Dúvidas Frequentes</h2>
+                <p>Encontre respostas para as perguntas mais comuns.</p>
+            </div>
+            <div class="support-cards">
+                <div class="support-card" style="text-align:left;">
+                    <details>
+                        <summary><strong>Como faço meu cadastro?</strong></summary>
+                        <p style="margin-top:10px;">Clique em Cadastrar no topo, preencha seus dados e confirme. Você receberá instruções por e‑mail.</p>
+                    </details>
+                </div>
+                <div class="support-card" style="text-align:left;">
+                    <details>
+                        <summary><strong>É seguro contratar pela HandGO?</strong></summary>
+                        <p style="margin-top:10px;">Sim. Contamos com políticas de segurança, avaliações e sistema de denúncias para garantir a melhor experiência.</p>
+                    </details>
+                </div>
+                <div class="support-card" style="text-align:left;">
+                    <details>
+                        <summary><strong>Como encontro um profissional?</strong></summary>
+                        <p style="margin-top:10px;">Use a busca por categoria ou palavras‑chave e filtre de acordo com sua necessidade.</p>
+                    </details>
+                </div>
+                <div class="support-card" style="text-align:left;">
+                    <details>
+                        <summary><strong>Esqueci minha senha. Como recuperar?</strong></summary>
+                        <p style="margin-top:10px;">Clique em Entrar e utilize a opção de recuperação de senha (quando disponível). Se precisar, fale com o suporte.</p>
+                    </details>
+                </div>
+                <div class="support-card" style="text-align:left;">
+                    <details>
+                        <summary><strong>Como altero meus dados cadastrais?</strong></summary>
+                        <p style="margin-top:10px;">Acesse sua conta, vá em Minha Área e edite suas informações. Lembre-se de salvar as alterações.</p>
+                    </details>
+                </div>
+                <div class="support-card" style="text-align:left;">
+                    <details>
+                        <summary><strong>Como faço para cancelar um serviço?</strong></summary>
+                        <p style="margin-top:10px;">Entre em contato com o profissional pela conversa combinada. Em casos de problemas, utilize o nosso sistema de denúncias.</p>
+                    </details>
+                </div>
+                <div class="support-card" style="text-align:left;">
+                    <details>
+                        <summary><strong>Existe alguma taxa ou custo adicional?</strong></summary>
+                        <p style="margin-top:10px;">As condições de pagamento variam por serviço e profissional. Verifique sempre os valores antes de confirmar a contratação.</p>
+                    </details>
+                </div>
+                <div class="support-card" style="text-align:left;">
+                    <details>
+                        <summary><strong>Como avalio um profissional após o serviço?</strong></summary>
+                        <p style="margin-top:10px;">Após a conclusão, você poderá deixar uma avaliação e comentário para ajudar outros clientes.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>HandGO</h3>
+                    <p>A plataforma que conecta você aos melhores profissionais de serviços terceirizados em todo o Brasil.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fa-solid fa-envelope"></i> contato@helpconnect.com.br</li>
+                        <li><i class="fa-solid fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fa-solid fa-location-dot"></i> São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 HandGO. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeLogin">&times;</span>
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Entrar na sua conta</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">E-mail</label>
+                    <input type="email" id="loginEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Senha</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px;">
+                Não tem uma conta? <a href="#" id="openRegisterFromLogin" style="color: var(--primary);">Cadastre-se</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeRegister">&times;</span>
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Criar conta</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nome Completo</label>
+                    <input type="text" id="registerName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">E-mail</label>
+                    <input type="email" id="registerEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerCpf">CPF</label>
+                    <input type="text" id="registerCpf" class="form-control" placeholder="000.000.000-00" maxlength="14" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Senha</label>
+                    <input type="password" id="registerPassword" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerType">Tipo de Conta</label>
+                    <select id="registerType" class="form-control" required>
+                        <option value="">Selecione...</option>
+                        <option value="client">Cliente</option>
+                        <option value="professional">Profissional</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Cadastrar</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px;">
+                Já tem uma conta? <a href="#" id="openLoginFromRegister" style="color: var(--primary);">Entrar</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeReport">&times;</span>
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Denunciar Problema</h2>
+            <form id="reportForm">
+                <div class="form-group">
+                    <label for="reportService">Serviço Relacionado</label>
+                    <input type="text" id="reportService" class="form-control" placeholder="Nome do serviço/profissional">
+                </div>
+                <div class="form-group">
+                    <label for="reportReason">Motivo da Denúncia</label>
+                    <select id="reportReason" class="form-control" required>
+                        <option value="">Selecione...</option>
+                        <option value="quality">Qualidade do serviço</option>
+                        <option value="behavior">Comportamento inadequado</option>
+                        <option value="no-show">Profissional não compareceu</option>
+                        <option value="other">Outro motivo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reportDescription">Descrição do Problema</label>
+                    <textarea id="reportDescription" class="form-control" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Denúncia</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Theme Gear and Panel -->
+    <button class="theme-gear" id="themeGear" aria-label="Configurações de tema">
+        <i class="fa-solid fa-gear"></i>
+    </button>
+    <div class="theme-panel" id="themePanel" aria-label="Escolher tema">
+        <div class="theme-option" id="themeProfile">
+            <a href="4%20meu%20perfil.html" style="display:block; text-decoration:none; color:inherit; opacity:.6;" aria-label="Meu perfil">
+                <i class="fa-solid fa-user" style="margin-right:8px;"></i> Meu Perfil
+            </a>
+        </div>
+        <div class="theme-option" id="themeLight" role="button" aria-pressed="false">
+            <span class="label">Tema Branco/Roxo</span>
+            <span style="display:flex; align-items:center; gap:10px;">
+                <span class="radio" aria-hidden="true"></span>
+                <span class="theme-swatch" aria-hidden="true">
+                    <span class="dot" style="background:#ffffff; border:1px solid #ddd;"></span>
+                    <span class="dot" style="background:#6a0dad;"></span>
+                </span>
+            </span>
+        </div>
+        <div class="theme-option" id="themeDark" role="button" aria-pressed="false">
+            <span class="label">Tema Preto/Roxo</span>
+            <span style="display:flex; align-items:center; gap:10px;">
+                <span class="radio" aria-hidden="true"></span>
+                <span class="theme-swatch" aria-hidden="true">
+                    <span class="dot" style="background:#0f0f14;"></span>
+                    <span class="dot" style="background:#6a0dad;"></span>
+                </span>
+            </span>
+        </div>
+    </div>
+    
+
+    <script>
+        // Modal functionality
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const findServiceBtn = document.getElementById('findServiceBtn');
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const reportModal = document.getElementById('reportModal');
+        // Theme controls (site-wide)
+        const themeGear = document.getElementById('themeGear');
+        const themePanel = document.getElementById('themePanel');
+        const themeLight = document.getElementById('themeLight');
+        const themeDark = document.getElementById('themeDark');
+        // External auth endpoints
+        const EXTERNAL_REGISTER_URL = '2 cadrastro.html';
+        const EXTERNAL_LOGIN_URL = '3 logar.html';
+        const EXTERNAL_PROFILE_URL = '4 meu perfil.html';
+         // Account section buttons
+        const accountRegisterBtn = document.getElementById('accountRegisterBtn');
+        const accountLoginBtn = document.getElementById('accountLoginBtn');
+        
+        const closeLogin = document.getElementById('closeLogin');
+        const closeRegister = document.getElementById('closeRegister');
+        const closeReport = document.getElementById('closeReport');
+        
+        const openRegisterFromLogin = document.getElementById('openRegisterFromLogin');
+        const openLoginFromRegister = document.getElementById('openLoginFromRegister');
+
+        // Site-wide theme persistence
+        (function(){
+            function applyTheme(mode){
+                if (mode === 'dark') document.body.classList.add('theme-dark');
+                else document.body.classList.remove('theme-dark');
+            }
+            function setActive(mode){
+                if (!themeLight || !themeDark) return;
+                const isDark = mode === 'dark';
+                themeDark.classList.toggle('active', isDark);
+                themeDark.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+                themeLight.classList.toggle('active', !isDark);
+                themeLight.setAttribute('aria-pressed', !isDark ? 'true' : 'false');
+            }
+            function setSiteTheme(mode){
+                localStorage.setItem('site_theme', mode);
+                applyTheme(mode);
+                setActive(mode);
+            }
+            function initTheme(){
+                const saved = localStorage.getItem('site_theme');
+                const mode = (saved === 'dark' || saved === 'light') ? saved : 'light';
+                applyTheme(mode);
+                setActive(mode);
+            }
+            initTheme();
+            // UI handlers
+            if (themeGear && themePanel){
+                function togglePanel(){ themePanel.style.display = (themePanel.style.display === 'block') ? 'none' : 'block'; }
+                themeGear.addEventListener('click', (e)=>{ e.stopPropagation(); togglePanel(); });
+                document.addEventListener('click', (e)=>{ if (!themePanel.contains(e.target) && e.target !== themeGear) themePanel.style.display = 'none'; });
+            }
+            if (themeLight) themeLight.addEventListener('click', ()=>{ setSiteTheme('light'); if (themePanel) themePanel.style.display='none'; });
+            if (themeDark) themeDark.addEventListener('click', ()=>{ setSiteTheme('dark'); if (themePanel) themePanel.style.display='none'; });
+            // Cross-tab/page sync
+            window.addEventListener('storage', (e)=>{ if (e.key === 'site_theme') { applyTheme(e.newValue); setActive(e.newValue); }});
+        })();
+        
+        // Reorder sections as requested and place categories after hero
+        const footerEl = document.querySelector('footer');
+        const sectionOrder = ['pesquisa','conta','sobre','how-it-works','services','autonomos','empresas','support','testimonials'];
+        sectionOrder.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && footerEl && el.nextSibling !== footerEl) {
+                document.body.insertBefore(el, footerEl);
+            }
+        });
+        const categoriesBar = document.querySelector('.categories-bar');
+        const headerEl2 = document.querySelector('header');
+        if (categoriesBar && headerEl2 && categoriesBar.previousElementSibling !== headerEl2) {
+            headerEl2.after(categoriesBar);
+        }
+
+        // Clickable site title -> smooth animated scroll to start with easing
+        function smoothScrollTo(y, duration = 700) {
+            const start = window.scrollY || document.documentElement.scrollTop || 0;
+            const change = y - start;
+            const startTime = performance.now();
+            function easeInOutCubic(t){
+                return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+            }
+            function animate(now){
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = easeInOutCubic(progress);
+                window.scrollTo(0, start + change * eased);
+                if (progress < 1) requestAnimationFrame(animate);
+            }
+            requestAnimationFrame(animate);
+        }
+
+        const logoEl = document.querySelector('.logo');
+        if (logoEl) {
+            logoEl.addEventListener('click', () => {
+                const target = document.getElementById('pesquisa');
+                const topY = target ? target.offsetTop : 0;
+                smoothScrollTo(topY, 750);
+            });
+        }
+
+        // Alterna visibilidade do FAQ ao clicar no menu
+        function toggleFaq(){
+            const target = document.getElementById('faq');
+            if (!target) return false;
+            const isHidden = getComputedStyle(target).display === 'none';
+            target.style.display = isHidden ? 'block' : 'none';
+            return isHidden; // true se ficou visível agora
+        }
+
+        const clientArea = document.getElementById('area-cliente');
+        const clientInfoForm = document.getElementById('clientInfoForm');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        function populateClientForm() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('clientInfo') || '{}');
+                const emailFromSession = localStorage.getItem('userEmail') || '';
+                document.getElementById('clientName').value = saved.name || '';
+                document.getElementById('clientEmail').value = saved.email || emailFromSession;
+                document.getElementById('clientPhone').value = saved.phone || '';
+                document.getElementById('clientAddress').value = saved.address || '';
+                document.getElementById('clientPreferences').value = saved.preferences || '';
+            } catch (_) {}
+        }
+
+        function showClientArea() {
+            if (!clientArea) return;
+            clientArea.style.display = '';
+            populateClientForm();
+            clientArea.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideClientArea() {
+            if (!clientArea) return;
+            clientArea.style.display = 'none';
+        }
+
+        // Redirect header buttons to external portal
+        if (loginBtn) loginBtn.onclick = () => window.location.href = EXTERNAL_LOGIN_URL;
+        if (registerBtn) registerBtn.onclick = () => window.location.href = EXTERNAL_REGISTER_URL;
+        if (findServiceBtn) findServiceBtn.onclick = () => window.location.href = EXTERNAL_LOGIN_URL;
+        // Redirect account section buttons
+        if (accountRegisterBtn) accountRegisterBtn.onclick = () => window.location.href = EXTERNAL_REGISTER_URL;
+        if (accountLoginBtn) accountLoginBtn.onclick = () => window.location.href = EXTERNAL_LOGIN_URL;
+        
+        // Close modals
+        closeLogin.onclick = () => loginModal.style.display = 'none';
+        closeRegister.onclick = () => registerModal.style.display = 'none';
+        closeReport.onclick = () => reportModal.style.display = 'none';
+        
+        // Switch between modals
+        openRegisterFromLogin.onclick = (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
+        };
+        
+        openLoginFromRegister.onclick = (e) => {
+            e.preventDefault();
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        };
+        
+        // Close modals when clicking outside
+        window.onclick = (event) => {
+            if (event.target === loginModal) loginModal.style.display = 'none';
+            if (event.target === registerModal) registerModal.style.display = 'none';
+            if (event.target === reportModal) reportModal.style.display = 'none';
+        };
+        
+        // CPF validation function
+        function validarCPF(cpf) {
+          cpf = cpf.replace(/[^\d]+/g, '');
+          if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+          let soma = 0, resto;
+          for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
+          resto = (soma * 10) % 11;
+          if ((resto === 10) || (resto === 11)) resto = 0;
+          if (resto !== parseInt(cpf[9])) return false;
+          soma = 0;
+          for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
+          resto = (soma * 10) % 11;
+          if ((resto === 10) || (resto === 11)) resto = 0;
+          return resto === parseInt(cpf[10]);
+        }
+        
+        
+        
+        // Form submissions
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail')?.value || '';
+            localStorage.setItem('loggedIn', '1');
+            localStorage.setItem('temConta', '1');
+            if (email) localStorage.setItem('userEmail', email);
+            loginModal.style.display = 'none';
+            showClientArea();
+        });
+        
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const cpfInput = document.getElementById('registerCpf');
+            const cpfVal = cpfInput?.value || '';
+            if (!validarCPF(cpfVal)) {
+                alert('CPF inválido. Verifique e tente novamente.');
+                cpfInput?.focus();
+                return;
+            }
+            alert('Cadastro realizado com sucesso! Verifique seu e-mail para ativação.');
+            registerModal.style.display = 'none';
+        });
+        
+        document.getElementById('reportForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Denúncia enviada com sucesso! Nossa equipe entrará em contato em breve.');
+            reportModal.style.display = 'none';
+        });
+        
+        
+        // Company form submission
+        const companyForm = document.getElementById('companyForm');
+        const companyDesc = document.getElementById('companyDescription');
+        const companyDescCounter = document.getElementById('companyDescriptionCounter');
+        const COMPANY_DESC_MAX = 4000;
+        function updateCompanyDescCounter(){
+            if (!companyDescCounter || !companyDesc) return;
+            const len = (companyDesc.value || '').length;
+            companyDescCounter.textContent = `${len}/${COMPANY_DESC_MAX}`;
+        }
+        if (companyDesc){
+            updateCompanyDescCounter();
+            companyDesc.addEventListener('input', updateCompanyDescCounter);
+        }
+        if (companyForm) {
+            companyForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Simple CNPJ validation: check for 14 digits (ignoring mask)
+                const cnpjInput = document.getElementById('companyCnpj');
+                const digits = (cnpjInput?.value || '').replace(/\D/g, '');
+                if (!digits || digits.length !== 14) {
+                    alert('Por favor, informe um CNPJ válido (14 dígitos).');
+                    cnpjInput?.focus();
+                    return;
+                }
+                alert('Cadastro de empresa enviado! Nossa equipe entrará em contato.');
+                companyForm.reset();
+            });
+        }
+        
+        // Tabs: switch panels
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        function activateTab(targetSel){
+            const target = document.querySelector(targetSel);
+            if (!target) return;
+            tabButtons.forEach(b=>{
+                const active = b.getAttribute('data-target') === targetSel;
+                b.classList.toggle('active', active);
+                b.setAttribute('aria-selected', active ? 'true' : 'false');
+            });
+            tabPanels.forEach(p=>p.classList.toggle('active', p === target));
+            // Re-apply current search to the new active panel
+            if (typeof applyFilterToActiveTab === 'function') applyFilterToActiveTab();
+        }
+        const serviceSuggestions = document.getElementById('serviceSuggestions');
+        function itemsForPanel(panel){
+            if (!panel) return [];
+            return Array.from(panel.querySelectorAll('.service-list li')).map(li=>({
+                name: (li.textContent || '').trim(),
+                tabId: '#' + panel.id
+            }));
+        }
+        tabButtons.forEach(btn=>{
+            btn.addEventListener('click', ()=> {
+                const targetSel = btn.getAttribute('data-target');
+                activateTab(targetSel);
+                const services = document.getElementById('services');
+                if (services) services.scrollIntoView({ behavior: 'smooth' });
+                if (searchInput) {
+                    searchInput.focus();
+                    const panel = document.querySelector(targetSel);
+                    const items = itemsForPanel(panel);
+                    renderSuggestions(serviceSuggestions, items, (item) => {
+                        activateTab(item.tabId);
+                        searchInput.value = item.name;
+                        applyFilterToActiveTab();
+                        serviceSuggestions.style.display = 'none';
+                        // Não exigimos login apenas ao trocar de aba; a exigência ocorre ao selecionar/solicitar
+                    });
+                }
+            });
+        });
+
+        // Service search filtering (within active tab)
+        const searchInput = document.getElementById('serviceSearch');
+        function applyFilterToActiveTab(){
+            const term = (searchInput?.value || '').toLowerCase().trim();
+            const active = document.querySelector('.tab-panel.active');
+            if (!active) return;
+            // Filter list items; hide <li> not matching
+            active.querySelectorAll('.service-list li').forEach(li=>{
+                const txt = li.textContent.toLowerCase();
+                li.style.display = !term || txt.includes(term) ? '' : 'none';
+            });
+        }
+        if (searchInput) {
+            searchInput.addEventListener('input', applyFilterToActiveTab);
+        }
+
+        // Indexar serviços por abas e habilitar autocomplete + exigir login ao selecionar
+        const EXTERNAL_LOGIN = EXTERNAL_LOGIN_URL;
+        function isLoggedIn(){ return localStorage.getItem('loggedIn') === '1'; }
+        function requireLoginThen(fn){
+            if (!isLoggedIn()) {
+                window.location.href = EXTERNAL_LOGIN;
+                return;
+            }
+            if (typeof fn === 'function') fn();
+        }
+
+        function buildServiceIndex(){
+            const index = [];
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                const tabId = '#' + panel.id;
+                panel.querySelectorAll('.service-list li').forEach(li => {
+                    const name = (li.textContent || '').trim();
+                    if (name) index.push({ name, tabId });
+                });
+            });
+            return index;
+        }
+        const SERVICE_INDEX = buildServiceIndex();
+
+        function renderSuggestions(container, items, onSelect){
+            if (!container) return;
+            container.innerHTML = '';
+            if (!items || items.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+            items.slice(0, 8).forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'suggestion-item';
+                el.textContent = item.name;
+                el.addEventListener('click', () => onSelect(item));
+                container.appendChild(el);
+            });
+            container.style.display = 'block';
+        }
+
+        function attachAutocomplete(inputEl, containerEl){
+            if (!inputEl || !containerEl) return;
+            function update(){
+                const term = (inputEl.value || '').toLowerCase().trim();
+                if (!term){ containerEl.style.display = 'none'; return; }
+                const results = SERVICE_INDEX.filter(s => s.name.toLowerCase().includes(term));
+                renderSuggestions(containerEl, results, (item) => {
+                    // Ativa aba, aplica filtro e exige login para prosseguir
+                    activateTab(item.tabId);
+                    inputEl.value = item.name;
+                    if (inputEl === searchInput) applyFilterToActiveTab();
+                    const services = document.getElementById('services');
+                    if (services) services.scrollIntoView({ behavior: 'smooth' });
+                    containerEl.style.display = 'none';
+                    requireLoginThen(() => {});
+                });
+            }
+            inputEl.addEventListener('input', update);
+            inputEl.addEventListener('focus', update);
+            document.addEventListener('click', (e)=>{
+                if (!containerEl.contains(e.target) && e.target !== inputEl) {
+                    containerEl.style.display = 'none';
+                }
+            });
+        }
+
+        attachAutocomplete(document.getElementById('heroSearch'), document.getElementById('heroSuggestions'));
+        attachAutocomplete(document.getElementById('serviceSearch'), document.getElementById('serviceSuggestions'));
+
+        // Tornar itens das listas clicáveis para exigir login ao solicitar
+        document.querySelectorAll('.service-list li').forEach(li => {
+            li.style.cursor = 'pointer';
+            li.addEventListener('click', () => requireLoginThen(() => {}));
+        });
+
+        // Dropdown de serviços por categoria (hover)
+        const catDropdown = document.getElementById('catDropdown');
+        const catTitleEl = document.getElementById('catTitle');
+        const catListEl = document.getElementById('catList');
+        const categoriesBarEl = document.querySelector('.categories-bar');
+        const CATS = {
+            'Serviços Domésticos': [
+                'Diarista / Faxineira','Passadeira','Cozinheira','Babá','Cuidador de idosos','Jardineiro / Paisagista','Piscineiro','Zelador','Porteiro residencial','Dog walker / Pet sitter','Motorista particular','Lavagem de sofá e tapete','Organização residencial','Empregada doméstica mensalista'
+            ],
+            'Reformas e reparos': [
+                'Pedreiro','Pintor','Eletricista','Encanador','Gesseiro','Azulejista','Marceneiro','Montador de móveis','Vidraceiro','Serralheiro','Instalador de pisos e revestimentos','Telhadista / Impermeabilização','Arquiteto de interiores / Designer de interiores','Pequenas reformas residenciais e comerciais'
+            ],
+            'Assistência técnica': [
+                'Técnico em informática','Técnico de celular','Técnico de notebook','Técnico de eletrodomésticos','Técnico de ar-condicionado (instalação, manutenção, limpeza)','Instalação de câmeras e sistemas de segurança','Instalação de TV e antenas','Manutenção de portões automáticos','Conserto de micro-ondas, ventiladores, aspiradores etc.','Instalação de som e vídeo residencial'
+            ],
+            'Aulas': [
+                'Reforço escolar (fundamental e médio)','Aulas particulares de matemática, português, inglês etc.','Aulas de música (violão, teclado, canto etc.)','Aulas de informática / programação','Aulas de artesanato e costura','Aulas de culinária','Aulas de direção teórica (simulação, legislação)','Cursos profissionalizantes (administração, vendas, estética etc.)','Aulas de educação física / personal trainer'
+            ],
+            'Consultoria': [
+                'Consultoria financeira','Consultoria de marketing digital','Consultoria de RH e recrutamento','Consultoria jurídica (assessoria legal)','Consultoria empresarial / gestão de negócios','Consultoria em segurança do trabalho','Consultoria em TI / tecnologia','Consultoria de imagem pessoal e profissional','Consultoria de sustentabilidade ou eficiência energética'
+            ],
+            'Saúde': [
+                'Enfermeiro domiciliar','Cuidador de pacientes','Fisioterapeuta','Psicólogo (online ou presencial)','Nutricionista','Personal trainer','Massoterapeuta terapêutico','Fonoaudiólogo','Terapeuta ocupacional','Técnico de enfermagem','Home care / atendimento domiciliar'
+            ],
+            'Moda e beleza': [
+                'Cabeleireiro / barbeiro','Maquiador','Manicure e pedicure','Designer de sobrancelhas','Depiladora','Maquiagem artística','Esteticista','Consultor de moda e imagem','Personal stylist','Alongamento de cílios / unhas','Bronzeamento','Spa em domicílio'
+            ],
+            'Eventos': [
+                'Fotógrafo / cinegrafista','DJ / músico / banda','Buffet / catering','Garçom / garçonete','Decorador de festas','Cerimonialista / organizador de eventos','Locação de tendas, mesas e cadeiras','Animador infantil / recreador','Bartender','Segurança de evento','Promotor de eventos','Iluminação e som profissional'
+            ],
+            'Autos': [
+                'Mecânico automotivo','Funileiro / pintor automotivo','Eletricista automotivo','Lavagem automotiva (completa ou a domicílio)','Polimento e cristalização','Troca de óleo e filtros','Guincho e socorro 24h','Instalação de som e acessórios','Martelinho de ouro','Estética automotiva','Envelopamento de veículos'
+            ],
+            'Design e Tecnologia': [
+                'Criação de sites e landing pages','Criação de aplicativos','Design gráfico (logos, banners, cartões etc.)','Edição de vídeo e imagem','Marketing digital (gestão de redes sociais, SEO, anúncios)','Programação e automação de sistemas','Criação de lojas virtuais (e-commerce)','Suporte técnico remoto','Desenvolvimento de sistemas personalizados','UI/UX Design','Modelagem 3D / animação','Criação de conteúdo digital'
+            ]
+        };
+
+        function showCatDropdown(title, items){
+            if (!catDropdown || !catTitleEl || !catListEl) return;
+            catTitleEl.textContent = title;
+            catListEl.innerHTML = '';
+            items.forEach(txt => {
+                const li = document.createElement('li');
+                li.textContent = txt;
+                li.style.cursor = 'pointer';
+                li.addEventListener('click', () => requireLoginThen(() => {}));
+                catListEl.appendChild(li);
+            });
+            catDropdown.classList.add('active');
+            catDropdown.setAttribute('aria-hidden','false');
+        }
+        function hideCatDropdown(){
+            if (!catDropdown) return;
+            catDropdown.classList.remove('active');
+            catDropdown.setAttribute('aria-hidden','true');
+            if (activeCatEl) activeCatEl.classList.remove('active');
+            activeCatEl = null;
+        }
+        let activeCatEl = null;
+        function toggleCategory(item){
+            const label = item.querySelector('span')?.textContent?.trim() || '';
+            const items = CATS[label];
+            if (!items) return;
+            if (activeCatEl === item && catDropdown.classList.contains('active')){
+                hideCatDropdown();
+                return;
+            }
+            document.querySelectorAll('.category-item').forEach(i=>i.classList.remove('active'));
+            item.classList.add('active');
+            activeCatEl = item;
+            showCatDropdown(label, items);
+        }
+
+        // Auto-open first category on page load
+        (function initOpenCategory(){
+            const firstCat = document.querySelector('.categories .category-item');
+            if (firstCat) toggleCategory(firstCat);
+        })();
+
+        // Cleanup: remove any legacy "Denunciar" buttons that might still exist in the DOM
+        (function removeLegacyReportButtons(){
+            document.querySelectorAll('button').forEach(btn => {
+                const text = (btn.textContent || '').toLowerCase();
+                if (text.includes('denunciar')) btn.remove();
+            });
+        })();
+
+        // Hero search + chips -> reuse services filter
+        const heroInput = document.getElementById('heroSearch');
+        const heroBtn = document.getElementById('heroSearchBtn');
+        function applySearchAndScroll(term){
+            if (!searchInput) return;
+            searchInput.value = term || '';
+            applyFilterToActiveTab();
+            const services = document.getElementById('services');
+            if (services) services.scrollIntoView({ behavior: 'smooth' });
+        }
+        if (heroBtn && heroInput){
+            heroBtn.addEventListener('click', () => applySearchAndScroll(heroInput.value));
+            heroInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    applySearchAndScroll(heroInput.value);
+                }
+            });
+        }
+        document.querySelectorAll('.tag-chip').forEach(chip => {
+            chip.addEventListener('click', () => applySearchAndScroll(chip.getAttribute('data-term') || chip.textContent));
+        });
+        document.querySelectorAll('.category-item').forEach(cat => {
+            cat.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (typeof toggleCategory === 'function') toggleCategory(cat);
+            });
+        });
+        
+        // Theme gear logic handled above in site-wide theme block
+        
+        if (clientInfoForm) {
+            clientInfoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const data = {
+                    name: document.getElementById('clientName')?.value || '',
+                    email: document.getElementById('clientEmail')?.value || '',
+                    phone: document.getElementById('clientPhone')?.value || '',
+                    address: document.getElementById('clientAddress')?.value || '',
+                    preferences: document.getElementById('clientPreferences')?.value || ''
+                };
+                localStorage.setItem('clientInfo', JSON.stringify(data));
+                alert('Informações salvas!');
+            });
+        }
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('loggedIn');
+                localStorage.removeItem('temConta');
+                // Mantém os dados salvos de clientInfo; remova a linha abaixo se quiser preservar o email de sessão
+                localStorage.removeItem('userEmail');
+                hideClientArea();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        if (localStorage.getItem('loggedIn') === '1') {
+            showClientArea();
+        }
+        
+        // Ripple click animation (delegated)
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.btn');
+            if (!btn) return;
+            const rect = btn.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            btn.appendChild(ripple);
+            ripple.addEventListener('animationend', () => ripple.remove());
+        });
+
+        // Smooth scrolling for anchor links with header offset and FAQ toggle
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                e.preventDefault();
+                if (!href || href.length <= 1) return;
+                const target = document.querySelector(href);
+                if (!target) return;
+                if (href === '#faq') {
+                    const shown = toggleFaq();
+                    if (!shown) return; // if it was visible and now hidden, don't scroll
+                }
+                const headerH = (document.querySelector('header')?.offsetHeight || 0) + 12;
+                const y = Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerH);
+                smoothScrollTo(y, 700);
+            });
+        });
+
+        function toggleFaq() {
+            const faq = document.getElementById('faq');
+            if (!faq) return;
+            const visible = getComputedStyle(faq).display !== 'none';
+            faq.style.display = visible ? 'none' : 'block';
+            return !visible;
+        }
+    </script>
+</body>
+</html>
+
